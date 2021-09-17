@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxr.mapper.TestMapper">
+  <resultMap id="BaseResultMap" type="com.zxr.model.Test">
+    <id column="useid" jdbcType="INTEGER" property="useid" />
+    <result column="usename" jdbcType="CHAR" property="usename" />
+    <result column="useage" jdbcType="INTEGER" property="useage" />
+    <result column="usesalary" jdbcType="INTEGER" property="usesalary" />
+    <result column="uselevel" jdbcType="CHAR" property="uselevel" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    useid, usename, useage, usesalary, uselevel
+  </sql>
+  <select id="selectByExample" parameterType="com.zxr.model.TestExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where useid = #{useid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from test
+    where useid = #{useid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zxr.model.TestExample">
+    delete from test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zxr.model.Test">
+    insert into test (useid, usename, useage, 
+      usesalary, uselevel)
+    values (#{useid,jdbcType=INTEGER}, #{usename,jdbcType=CHAR}, #{useage,jdbcType=INTEGER}, 
+      #{usesalary,jdbcType=INTEGER}, #{uselevel,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zxr.model.Test">
+    insert into test
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="useid != null">
+        useid,
+      </if>
+      <if test="usename != null">
+        usename,
+      </if>
+      <if test="useage != null">
+        useage,
+      </if>
+      <if test="usesalary != null">
+        usesalary,
+      </if>
+      <if test="uselevel != null">
+        uselevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="useid != null">
+        #{useid,jdbcType=INTEGER},
+      </if>
+      <if test="usename != null">
+        #{usename,jdbcType=CHAR},
+      </if>
+      <if test="useage != null">
+        #{useage,jdbcType=INTEGER},
+      </if>
+      <if test="usesalary != null">
+        #{usesalary,jdbcType=INTEGER},
+      </if>
+      <if test="uselevel != null">
+        #{uselevel,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zxr.model.TestExample" resultType="java.lang.Long">
+    select count(*) from test
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update test
+    <set>
+      <if test="record.useid != null">
+        useid = #{record.useid,jdbcType=INTEGER},
+      </if>
+      <if test="record.usename != null">
+        usename = #{record.usename,jdbcType=CHAR},
+      </if>
+      <if test="record.useage != null">
+        useage = #{record.useage,jdbcType=INTEGER},
+      </if>
+      <if test="record.usesalary != null">
+        usesalary = #{record.usesalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.uselevel != null">
+        uselevel = #{record.uselevel,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update test
+    set useid = #{record.useid,jdbcType=INTEGER},
+      usename = #{record.usename,jdbcType=CHAR},
+      useage = #{record.useage,jdbcType=INTEGER},
+      usesalary = #{record.usesalary,jdbcType=INTEGER},
+      uselevel = #{record.uselevel,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxr.model.Test">
+    update test
+    <set>
+      <if test="usename != null">
+        usename = #{usename,jdbcType=CHAR},
+      </if>
+      <if test="useage != null">
+        useage = #{useage,jdbcType=INTEGER},
+      </if>
+      <if test="usesalary != null">
+        usesalary = #{usesalary,jdbcType=INTEGER},
+      </if>
+      <if test="uselevel != null">
+        uselevel = #{uselevel,jdbcType=CHAR},
+      </if>
+    </set>
+    where useid = #{useid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zxr.model.Test">
+    update test
+    set usename = #{usename,jdbcType=CHAR},
+      useage = #{useage,jdbcType=INTEGER},
+      usesalary = #{usesalary,jdbcType=INTEGER},
+      uselevel = #{uselevel,jdbcType=CHAR}
+    where useid = #{useid,jdbcType=INTEGER}
+  </update>
+</mapper>
